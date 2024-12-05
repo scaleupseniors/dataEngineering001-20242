@@ -1,4 +1,4 @@
-# Proyecto: Bootcamp Data Eng 20242 - Proyecto Final
+# Proyecto: Bootcamp Data Eng 20242 - Visión de negocio
 
 ### Objetivo General
 Desarrollar una infraestructura de análisis en tiempo real que calcule indicadores como tiempo promedio de entrega, productos más vendidos, clientes frecuentes y precisión del sistema, alineada con los objetivos estratégicos de la empresa.
