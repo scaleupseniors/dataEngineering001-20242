@@ -14,7 +14,7 @@ Son Ingenieros de Datos en No Somos Rappi S.A., una reputada compañía dedicada
 
 Además, en No Somos Rappi S.A. se quiere conocer la precisión de las medidas reportadas en el día por parte del sistema de análisis en tiempo real. Esto, con el objetivo de poder conocer el % de precisión o confiabilidad del sistema en tiempo real.
 
-En el siguiente enlace se puede encontrar el documento de visión de negocio elaborado por el Project Manager encargado de gestionar el proyecto: **Visión de negocio**.
+En el siguiente enlace se puede encontrar el documento de visión de negocio elaborado por el Project Manager encargado de gestionar el proyecto: [Visión de negocio](https://github.com/scaleupseniors/dataEngineering001-20242/blob/main/proyectoFinal/visionDeNegocio.md).
 
 ### Infraestructura existente
 No Somos Rappi S.A. ya posee una infraestructura subyacente mostrada en la siguiente figura.
