@@ -1,0 +1,126 @@
+userConsumptionMode: Analytical, Operational
+version: 1.0.0
+status: current
+description: Bucket containing raw dataset.
+tenant: Secretaria de Infraestructura Fisica (SIF)
+sourcePlatform: googleCloudPlatform
+sourceSystem: googleCloudStorage
+datasetName: sif-med-lakehouse-raw-data-dev
+datasetUrl: gs://sif-med-lakehouse-raw-data-dev/
+kind: virtualDataset
+apiVersion: 2.3.0
+dataset:
+  - table: sif-med-lakehouse-raw-data-dev/MOBILE_APP/
+    url: gs://sif-med-lakehouse-raw-data-dev/MOBILE_APP/
+    description: null
+    tags: null
+    dataGranularity: Aggregation on columns datetime, vib_x, vib_y, vib_z, bridge_name, bridge_coordinates
+    columns:
+      - column: datetime
+        isPrimary: false
+        businessName: concrete measurement date in DD-MM-AA-HH:MM:SS format
+        logicalType: Datetime
+        physicalType: Datetime
+        isNullable: false
+        description: The concrete date and time when the measurement of the vibrations of the X, Y, and Z axes took place
+        transformSourceTables: null
+        transformLogic: null
+        transformDescription: null
+        sampleValues:
+          - 08-04-2024 9:21:32
+          - 06-03-2024 12:31:20
+      - column: vib_x
+        isPrimary: false
+        businessName: concrete measurement of the vibration of the X axis
+        logicalType: Float
+        physicalType: Float
+        isNullable: false
+        description: The concrete measurement of the vibrations of the X axis that took place
+        transformSourceTables: null
+        transformLogic: null
+        transformDescription: null
+        sampleValues:
+          - 0.00079999997979030013
+          - 0.010400000028312206
+      - column: vib_y
+        isPrimary: false
+        businessName: concrete measurement of the vibration of the Y axis
+        logicalType: Float
+        physicalType: Float
+        isNullable: false
+        description: The concrete measurement of the vibrations of the Y axis that took place
+        transformSourceTables: null
+        transformLogic: null
+        transformDescription: null
+        sampleValues:
+          - -0.018799999728798866
+          - -0.02070000022649765
+      - column: vib_z
+        isPrimary: false
+        businessName: concrete measurement of the vibration of the Z axis
+        logicalType: Float
+        physicalType: Float
+        isNullable: false
+        description: The concrete measurement of the vibrations of the Z axis that took place
+        transformSourceTables: null
+        transformLogic: null
+        transformDescription: null
+        sampleValues:
+          - -0.018799999728798866
+          - -0.02070000022649765
+      - column: bridge_name
+        isPrimary: false
+        businessName: the name of the bridge in which the measurement took place
+        logicalType: String
+        physicalType: String
+        isNullable: false
+        description: The name of the bridge in which the measurement took place
+        transformSourceTables: null
+        transformLogic: null
+        transformDescription: null
+        sampleValues:
+          - Puente Gilberto Echeverri Mejía
+          - Puente de La Calle 10
+      - column: bridge_coordinates
+        isPrimary: false
+        businessName: the coordinates of the bridge in which the measurement took place
+        logicalType: List[Float, Float]
+        physicalType: List[Float, Float]
+        isNullable: false
+        description: The coordinates [longitude, latitude] of the bridge in which the measurement took place
+        transformSourceTables: null
+        transformLogic: null
+        transformDescription: null
+        sampleValues:
+          - [37.8961199, -4.7830962]
+          - [37.3629504, -5.97893023224876]
+
+customProperties:
+  - property: dataprocWorkflowTemplateName
+    dp_lakehouse_workflow_dev 
+  - property: dataprocClusterName
+    value: dp-carga-lakehouse-pipeline-dev
+  - property: dataprocClusterJobName
+    value: dp-carga-lakehouse-job-dev
+  - property: dataprocClusterMasterNodesNumber
+    value: 1
+  - property: dataprocClusterWorkersNodesNumber
+    value: 0
+  - property: dataprocClusterMachineType
+    value: n2-standard-8
+  - propery: dataprocClusterDiskSpace
+    value: 150 GB
+  - property: dataprocClusterRegion
+    value: us-central1
+  - property: dataprocClusterZone
+    value: us-central1-a
+  - property: cloudschedulerJobName
+    value: dp-carga-lakehouse-job-dev
+  - property: cloudschedulerJobRegion
+    value: us-central1
+  - property: cloudschedulerJobFrequency
+    value: 0 6 * * * # 6 am Every day
+  - property: cloudSchedulerJobTarget
+    value: dp_lakehouse_workflow_dev
+  - property: cloudschedulerJobServiceAccount
+    value: sa-dev-lakehouse-scheduler@sif-med-bridges-vibrations-dev.iam.gserviceaccount.com

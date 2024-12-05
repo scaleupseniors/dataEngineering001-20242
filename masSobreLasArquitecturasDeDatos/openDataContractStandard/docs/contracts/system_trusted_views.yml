@@ -1,0 +1,153 @@
+userConsumptionMode: Analytical, Operational  # Modo de consumo pensado para el conjunto de datos
+version: 1.0.0  # Version actual del contrato de datos
+status: current  # Estado actual 
+description: Bucket containing trusted dataset.
+tenant: Secretaria de Infraestructura Fisica (SIF)  # Dueño de los datos estipulados en este contrato. 
+sourcePlatform: googleCloudPlatform  # Plataforma donde se almacenaran los datos
+sourceSystem: bigQuery  # Sistema donde se almacenaran los datos
+datasetName: trusted_mobile_app_external_tables  # Nombre del dataset en BigQuery
+datasetUrl: null
+kind: DataContract  # Tipo de documento
+apiVersion: 2.3.0  # Version del Open Data Contract Standard (ODS) usada
+dataset:
+  - table: MobileApp  # Nombre de la tabla que contiene los datos listados a continuacion
+    url: null
+    description: null
+    tags: null
+    dataGranularity: Aggregation on columns datetime, vib_x, vib_y, vib_z, bridge_name, bridge_coordinates, freq_vib_x, freq_vib_y, freq_vib_z  # Nivel de detalle que posee la tabla
+    columns:
+      - column: datetime  # Nombre de una de las columnas que debe de contener la tabla MobileApp
+        isPrimary: false  # Si la columna es llave primaria o no
+        businessName: concrete measurement date in DD-MM-AA-HH:MM:SS format
+        logicalType: Datetime  # Tipo de dato de la columna
+        physicalType: Datetime
+        isNullable: false  # Si se pueden o no encontrar nulos en la columna
+        description: The concrete date and time when the measurement of the vibrations of the X, Y, and Z axes took place
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP  # Tabla fuente de donde se transforman los datos
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/  # Ruta dentro de GCS a la tabla fuente
+        transformLogic: SELECT trusted_data.datetime from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data  # No se hace ninguna transformacion solo se hace un SELECT * de la columna
+        transformDescription: Insert all values from the datetime column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the datetime column of the BigQuery MobileApp table.
+        sampleValues:
+          - 08-04-2024 9:21:32
+          - 06-03-2024 12:31:20
+      - column: vib_x
+        isPrimary: false
+        businessName: concrete measurement of the vibration of the X axis
+        logicalType: Float
+        physicalType: Float
+        isNullable: false
+        description: The concrete measurement of the vibrations of the X axis that took place
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.vib_x from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the vib_x column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the vib_x column of the BigQuery MobileApp table.
+        sampleValues:
+          - 0.00079999997979030013
+          - 0.010400000028312206
+      - column: vib_y
+        isPrimary: false
+        businessName: concrete measurement of the vibration of the Y axis
+        logicalType: Float
+        physicalType: Float
+        isNullable: false
+        description: The concrete measurement of the vibrations of the Y axis that took place
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.vib_y from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the vib_y column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the vib_y column of the BigQuery MobileApp table.
+        sampleValues:
+          - -0.018799999728798866
+          - -0.02070000022649765
+      - column: vib_z
+        isPrimary: false
+        businessName: concrete measurement of the vibration of the Z axis
+        logicalType: Float
+        physicalType: Float
+        isNullable: false
+        description: The concrete measurement of the vibrations of the Z axis that took place
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.vib_z from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the vib_z column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the vib_z column of the BigQuery MobileApp table.
+        sampleValues:
+          - -0.018799999728798866
+          - -0.02070000022649765
+      - column: bridge_name
+        isPrimary: false
+        businessName: the name of the bridge in which the measurement took place
+        logicalType: String
+        physicalType: String
+        isNullable: false
+        description: The name of the bridge in which the measurement took place
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.bridge_name from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the bridge_name column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the bridge_name column of the BigQuery MobileApp table.
+        sampleValues:
+          - Puente Gilberto Echeverri Mejía
+          - Puente de La Calle 10
+      - column: bridge_coordinates
+        isPrimary: false
+        businessName: the coordinates of the bridge in which the measurement took place
+        logicalType: List[Float, Float]
+        physicalType: List[Float, Float]
+        isNullable: false
+        description: The coordinates [longitude, latitude] of the bridge in which the measurement took place
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.bridge_coordinates from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the bridge_coordinates column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the bridge_coordinates column of the BigQuery MobileApp table.
+        sampleValues:
+          - [37.8961199, -4.7830962]
+          - [37.3629504, -5.97893023224876]
+      - column: freq_vib_x
+        isPrimary: false
+        businessName: frequencies for the vibrations measured in the X axis
+        logicalType: float
+        physicalType: float
+        isNullable: false
+        description: The frequencies obtained when applying the inverse fourier transformation to the vibrations measured in the X axis
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.freq_vib_x from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the freq_vib_x column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the freq_vib_x column of the BigQuery MobileApp table.
+        sampleValues:
+          - 0.00020973576465621591
+          - -0.00071145640686154366
+      - column: freq_vib_y
+        isPrimary: false
+        businessName: frequencies for the vibrations measured in the Y axis
+        logicalType: float
+        physicalType: float
+        isNullable: false
+        description: The frequencies obtained when applying the inverse fourier transformation to the vibrations measured in the Y axis
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.freq_vib_y from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the freq_vib_y column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the freq_vib_y column of the BigQuery MobileApp table.
+        sampleValues:
+          - -0.0089790131896734238
+          - 0.0010807259241119027
+      - column: freq_vib_z
+        isPrimary: false
+        businessName: frequencies for the vibrations measured in the Z axis
+        logicalType: float
+        physicalType: float
+        isNullable: false
+        description: The frequencies obtained when applying the inverse fourier transformation to the vibrations measured in the Z axis
+        transformSourceTables:
+          - table: alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP
+            url: gs://alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP/
+        transformLogic: SELECT trusted_data.freq_vib_z from alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP as trusted_data
+        transformDescription: Insert all values from the freq_vib_z column of the alcaldia-med-lakehouse-trusted-data-dev/MOBILE_APP table into the freq_vib_z column of the BigQuery MobileApp table.
+        sampleValues:
+          - 0.00057652068790048361
+          - 0.0010317020351067185
