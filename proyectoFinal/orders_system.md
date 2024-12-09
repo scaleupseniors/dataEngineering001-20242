@@ -17,8 +17,70 @@ Además, en No Somos Rappi S.A. se quiere conocer la precisión de las medidas r
 En el siguiente enlace se puede encontrar el documento de visión de negocio elaborado por el Project Manager encargado de gestionar el proyecto: [Visión de negocio](https://github.com/scaleupseniors/dataEngineering001-20242/blob/main/proyectoFinal/visionDeNegocio.md).
 
 ### Infraestructura existente
-No Somos Rappi S.A. ya posee una infraestructura subyacente mostrada en la siguiente figura.
-...
+No Somos Rappi S.A. ya posee una infraestructura subyacente mostrada en las siguiente figuras.
+```mermaid
+C4Context
+    title No Somos Rappi S.A Existent services a system context diagram
+    Person(customer, "Customer", "A customer of No Somos Rappi S.A<br>who would like to place an order.")
+    System_Boundary(b1, "No Somos Rappi S.A services"){
+        System(FrontEnd, "Order placement and<br>delivery system.")
+        SystemQueue(Quee, "Entreprise<br>service bus.")
+    }
+    Rel(customer, FrontEnd, "Places an order.", "TCP/IP")
+    Rel(FrontEnd, Quee, "Sends placed order<br>details to a topic.","TCP/IP")
+    UpdateRelStyle(customer, FrontEnd, $offsetY="-50")
+    UpdateRelStyle(FrontEnd, Quee, $offsetX="-50")
+```
+
+A continuación, se muestra un diagrama de contenedores del sistema preexistente. Cabe recalcar que para este ejercicio solo tendremos en cuenta el servicio de órdenes.
+
+```mermaid
+C4Container
+title No Somos Rappi S.A Existent services a system containers diagram
+
+Container_Boundary(c1, "Order placement and delivery system.") {
+    Container(front, "Single-Page Application", "Container: JS and Angular", "Provides all order placement and delivery<br>functionalities to the customer<br>via their web browser.")
+    Container(gateway, "API Gateway", "Container: Java and Spring MVC", "Routes requests to the<br>appropiate service API.")
+    Container_Boundary(c2, "Order Service"){
+        Container(order, "Order Service API", "Container: Java and Spring MVC", "Provides endpoints for order<br>placement functionalities<br>via a JSON/HTTPS API.")
+        ContainerDb(orderdb, "Order Database", "PostgreSQL", "Stores order placement information.")
+    }
+    Container_Boundary(c3, "Delivery Service"){
+        Container(delivery, "Delivery Service API", "Container: Java and Spring MVC", "Provides endpoints for order<br>delivery functionalities<br>via a JSON/HTTPS API.")
+        ContainerDb(deliverydb, "Delivery Database", "PostgreSQL", "Stores order delivery information.")
+    }
+    Container_Boundary(c4, "Customer Service"){
+        Container(customer, "Customer Management<br>Service API", "Container: Java and Spring MVC", "Provides endpoints for<br>customer managment<br>via a JSON/HTTPS API.")
+        ContainerDb(customerdb, "Customer Database", "PostgreSQL", "Stores users information.")
+    }
+}
+
+Person(client, "Customer", "A customer of No Somos Rappi S.A<br>who would like to place an order.")
+SystemQueue(Quee, "Entreprise<br>service bus.")
+
+Rel(client, front, "Places an order.", "TCP/IP")
+Rel(front, gateway, "Redirects customer<br>request.", "TCP/IP")
+Rel(gateway, order, "Redirects customer<br>request.", "TCP/IP")
+Rel(gateway, delivery, "Redirects customer<br>request.", "TCP/IP")
+Rel(gateway, customer, "Redirects customer<br>request.", "TCP/IP")
+Rel(order, Quee, "Send event<br>information.","TCP/IP")
+Rel(delivery, Quee, "Send event<br>information.", "TCP/IP")
+Rel(customer, Quee, "Send event<br>information.", "TCP/IP")
+Rel(order, orderdb, "")
+Rel(delivery, deliverydb, "")
+Rel(customer, customerdb, "")
+
+UpdateRelStyle(front, gateway, $offsetX="-50")
+UpdateRelStyle(gateway, order, $offsetY="-50")
+
+UpdateRelStyle(gateway, delivery, $offsetX="-90")
+UpdateRelStyle(gateway, delivery, $offsetY="-50")
+
+UpdateRelStyle(gateway, customer, $offsetX="-150")
+UpdateRelStyle(gateway, customer, $offsetY="-60")
+
+UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="3")
+```
 
 ## Lineamientos
 Este proyecto consta de cuatro (4) fases:
