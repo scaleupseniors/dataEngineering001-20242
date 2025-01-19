@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  jupyter-spark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jupyter-spark
+    networks:
+      - spark-network
+    ports:
+      - "8888:8888" # Jupyter notebooks UI
+      - "4040:4040" # Spark UI
+    volumes:
+      - ./src:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    command: start-notebook.sh --NotebookApp.token='' # Remove the Token auth requirement
+  
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb-container
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    networks:
+      - spark-network
+    ports:
+      - "27017:27017"
+
+  mongo-express: # Web UI for mongodb
+    image: mongo-express:latest
+    container_name: mongoui
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb-container
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=secret
+    networks:
+      - spark-network
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+
+networks:
+  spark-network:
+    driver: bridge
