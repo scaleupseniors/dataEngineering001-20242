@@ -1,0 +1,20 @@
+environment: "dev"
+
+variables:
+  gcp_project: "@format bridges-vibrations-{this.environment}"
+  raw_layer: "@format sif-med-lakehouse-raw-data-{this.environment}"
+  trusted_layer: "@format sif-med-lakehouse-trusted-data-{this.environment}"
+
+main_paths:
+  raw_data: "@format gs://{this.variables.raw_layer}/sif-med-raw-data"
+  error_data: "@format gs://{this.variables.raw_layer}/sif-med-error-data"
+  trusted_data: "@format gs://{this.variables.trusted_layer}"
+
+raw_path:
+  mobile_app: "@format {this.main_paths.raw_data}/MOBILE_APP"
+
+error_path:
+  mobile_app: "@format {this.main_paths.error_data}/MOBILE_APP"
+
+trusted_path:
+  mobile_app: "@format {this.main_paths.trusted_data}/MOBILE_APP"

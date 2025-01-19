@@ -1,0 +1,51 @@
+jobs:
+  - pysparkJob:
+      jarFileUris:
+        - gs://sif-med-lakehouse-apps-data-dev/dp_lakehouse_workflow_code/dist/config.yml
+      mainPythonFileUri: gs://sif-med-lakehouse-apps-data-dev/dp_lakehouse_workflow_code/dist/main.py
+      properties:
+        spark.app.name: dp-lakehouse-workflow-dev
+        spark.jars.packages: "io.delta:delta-core_2.12:2.3.0"
+        spark.sql.extensions: "io.delta.sql.DeltaSparkSessionExtension"
+        spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+        spark.databricks.delta.properties.defaults.enableChangeDataFeed: "false"
+        spark.databricks.delta.retentionDurationCheck.enabled: "false"
+        spark.databricks.delta.autoCompact.enabled: "auto"
+        spark.databricks.delta.optimizeWrites.enabled: "true"
+        spark.databricks.delta.properties.defaults.targetFileSize: "10485760"
+        spark.databricks.delta.optimize.repartition.enabled: "true"
+        spark.executor.heartbeatInterval: '100000'
+        spark.network.timeout: '300'
+        spark.sql.debug.maxToStringFields: '150'
+        spark.sql.parquet.int96RebaseModeInWrite: LEGACY
+        spark.sql.shuffle.partitions: '64'
+        spark.sql.files.ignoreCorruptFiles: 'true'
+        spark.sql.parquet.datetimeRebaseModeInWrite: CORRECTED
+        spark.sql.autoBroadcastJoinThreshold: '-1'
+        spark.sql.adaptive.enabled: 'false'
+      pythonFileUris:
+        - gs://sif-med-lakehouse-apps-data-dev/dp_lakehouse_workflow_code/dist/shared.zip
+        - gs://sif-med-lakehouse-apps-data-dev/dp_lakehouse_workflow_code/dist/libs.zip
+    stepId: dp-carga-lakehouse-job-dev
+placement:
+  managedCluster:
+    clusterName: dp-carga-lakehouse-pipeline-dev
+    config:
+      configBucket: sif-med-lakehouse-apps-data-dev
+      gceClusterConfig:
+        networkUri: default
+        serviceAccountScopes:
+          - https://www.googleapis.com/auth/cloud-platform
+        zoneUri: us-central1-a
+      masterConfig:
+        diskConfig:
+          bootDiskSizeGb: 150
+          bootDiskType: pd-standard
+          localSsdInterface: SCSI
+        machineTypeUri: n2-standard-8
+        numInstances: 1
+      softwareConfig:
+        imageVersion: 2.1-debian11
+        properties:
+          dataproc:dataproc.allow.zero.workers: 'true'
+          dataproc:dataproc.logging.stackdriver.job.driver.enable: 'true'
