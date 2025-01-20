@@ -40,6 +40,18 @@ services:
       - "8081:8081"
     depends_on:
       - mongodb
+  
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=downstream
+    ports:
+      - "5432:5432"
+    networks:
+      - spark-network
 
 networks:
   spark-network:
