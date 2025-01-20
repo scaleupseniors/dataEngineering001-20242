@@ -20,6 +20,13 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 ENV SPARK_HOME=/usr/local/spark
 ENV PATH=$SPARK_HOME/bin:$PATH
 
+# Create dir for storing drivers
+RUN mkdir -p /usr/local/spark/jars
+
+# Download external DB's drivers
+ENV POSTGRES_JDBC_VERSION=42.3.8
+RUN wget https://jdbc.postgresql.org/download/postgresql-${POSTGRES_JDBC_VERSION}.jar -P /usr/local/spark/jars/
+
 # Copy all code inside src to Docker container
 COPY src/ /home/jovyan/work/
 
